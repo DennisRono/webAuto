@@ -156,15 +156,15 @@ const logger = (newlogs) => {
             throw err;
         } else {
             logPolice();
-            if(getLastFile() !== "nolastfile" && getLastFile() === todayDate().replace("log", "")){
+            if(getLastFile() !== todayDate().replace("log", "")){console.log("not today create new file")}else{console.log("today do not create new file")}
+            if(getLastFile() === "nolastfile"){console.log();}else{console.log()}
+            if(getLastFile() === "nolastfile" || getLastFile() !== todayDate().replace("log", "")){
                 console.log('Created file: '+filename);
                 fs.writeFileSync(filename, Format({}, config));
                 //add logfile to gitignore
                 fs.appendFile('.gitignore', '\n# Cron logs \n'+filename+'\n', function (err) {
                 if (err) throw err;
                 });
-                writingLogs(newlogs);
-            }else{
                 writingLogs(newlogs);
             }
         }
