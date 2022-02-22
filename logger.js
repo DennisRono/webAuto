@@ -19,7 +19,7 @@ const genId = () => {
 }
 
 //filename
-let filename = (todayDate()+genId()).replace(/[\W_]/g, "").replace(" ", "-")+".json";
+let filename = (todayDate()+genId()).replace(" ", "-")+".json";
 
 //formatter config
 let config = {
