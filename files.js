@@ -6,9 +6,11 @@ function checkForFile(fileName, callback){
         if(exists){
             callback();
         }else{
-            fs.writeFile(fileName, {flag: 'wx'}, function (err, data) { 
+            fs.writeFile(fileName, {flag: 'wx'}, function (err, data) {
                 callback();
             })
         }
     });
 }
+
+module.exports = checkForFile
