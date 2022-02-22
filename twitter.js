@@ -4,7 +4,7 @@ require('dotenv').config();
 const firefox = require('selenium-webdriver/firefox');
 let options = new firefox.Options().setBinary('C:/Program Files/Mozilla Firefox/firefox.exe');
 
-(async function example() {
+(async function Twitter() {
   let driver = await new Builder().forBrowser('firefox').setFirefoxOptions(options).build();
   try {
     await driver.get('https://twitter.com/login');
