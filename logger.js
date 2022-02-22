@@ -39,12 +39,17 @@ function checkFileExistsSync(filepath){
 }
 //read the json file
 const getLogs = () => {
-  var webProjects = JSON.parse(fs.readFileSync(getLastFile()));
-  if(Object.entries(webProjects).length === 0){
-      return {data: webProjects, state: "Empty"}
-  } else{
-      return {data: webProjects, state: "Not Empty"}
-  }
+    let lastFileName = (fs.readFileSync('logs.dat')).toString().split(/\r?\n/)
+    if(lastFileName[lastFileName.length-2] === undefined){
+        return {data: "", state: "Empty"}
+    }else {
+        var webProjects = JSON.parse(fs.readFileSync(lastFileName[lastFileName.length-2]));
+        if(Object.entries(webProjects).length === 0){
+            return {data: webProjects, state: "Empty"}
+        } else{
+            return {data: webProjects, state: "Not Empty"}
+        }
+    }
 }
 //write logs to file
 const writingLogs = (newlogs) => {
@@ -139,7 +144,7 @@ const getLastFile = () => {
     if(lastFileDate[lastFileDate.length-2] === undefined){
         return "nolastfile";
     }else {
-        return { "lastDate":lastFileDate[lastFileDate.length-2].toString().substring(0,9), "WholeFilename":lastFileDate[lastFileDate.length-2]}
+        return lastFileDate[lastFileDate.length-2].toString().substring(0,9);
     }
   }
 }
