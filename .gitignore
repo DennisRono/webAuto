@@ -1,6 +1,6 @@
 node_modules
 cron.js
-
+.env
 
 # Cron logs 
 cron-logs.json
