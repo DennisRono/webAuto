@@ -1,0 +1,19 @@
+{
+  "name": "webauto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node index.js",
+    "cron": "node cron.js"
+  },
+  "keywords": [],
+  "author": "Dennis Kibet",
+  "license": "MIT",
+  "dependencies": {
+    "json-format": "^1.0.1",
+    "node-cron": "^3.0.0",
+    "selenium-webdriver": "^4.1.1",
+    "shelljs": "^0.8.5"
+  }
+}
