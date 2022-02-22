@@ -63,7 +63,12 @@ const writingLogs = (newlogs) => {
       let tod = todayDate();
       newlogs = '{"'+tod+'"'+' :['+JSON.stringify(newlogs)+']}';
       logs = JSON.parse(newlogs);
-      fs.writeFileSync(filename, Format(logs, config));
+      let lastFileName = (fs.readFileSync('logs.dat')).toString().split(/\r?\n/)
+      if(lastFileName[lastFileName.length-2] === undefined){
+          return {data: "", state: "Empty"}
+      }else {
+          fs.writeFileSync(lastFileName[lastFileName.length-2], Format(logs, config));
+      }
   }else{
       //get last key input from the json data
       var lastKey;
@@ -76,12 +81,22 @@ const writingLogs = (newlogs) => {
           let cutlogs = JSON.stringify(getLogs().data).slice(0, JSON.stringify(getLogs().data).length-2);
           logs = cutlogs+','+JSON.stringify(newlogs)+']}';
           logs = JSON.parse(logs);
-          fs.writeFileSync(filename, Format(logs, config));
+          let lastFileName = (fs.readFileSync('logs.dat')).toString().split(/\r?\n/)
+          if(lastFileName[lastFileName.length-2] === undefined){
+              return {data: "", state: "Empty"}
+          }else {
+              fs.writeFileSync(lastFileName[lastFileName.length-2], Format(logs, config));
+          }
       }else{
           let cutlogs = JSON.stringify(getLogs().data).slice(0, JSON.stringify(getLogs().data).length-1);
           logs = cutlogs+',"'+todayDate()+'" :['+JSON.stringify(newlogs)+']}';
           logs = JSON.parse(logs);
-          fs.writeFileSync(filename, Format(logs, config));
+          let lastFileName = (fs.readFileSync('logs.dat')).toString().split(/\r?\n/)
+          if(lastFileName[lastFileName.length-2] === undefined){
+              return {data: "", state: "Empty"}
+          }else {
+              fs.writeFileSync(lastFileName[lastFileName.length-2], Format(logs, config));
+          }
       }
   }
 }
@@ -156,8 +171,7 @@ const logger = (newlogs) => {
             throw err;
         } else {
             logPolice();
-            if(getLastFile() !== todayDate().replace("log", "")){console.log("not today create new file")}else{console.log("today do not create new file")}
-            if(getLastFile() === "nolastfile"){console.log();}else{console.log()}
+            console.log(getLastFile() === "nolastfile" || getLastFile() !== todayDate().replace("log", ""));
             if(getLastFile() === "nolastfile" || getLastFile() !== todayDate().replace("log", "")){
                 console.log('Created file: '+filename);
                 fs.writeFileSync(filename, Format({}, config));
