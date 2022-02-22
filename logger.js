@@ -96,7 +96,7 @@ const writeDat = () => {
         });
     } else{
         //...
-        fs.appendFile('logs.dat', dat+filename+"\n", function (err) {
+        fs.appendFile('logs.dat', filename+"\n", function (err) {
             if (err) throw err;
         });
     }
@@ -156,7 +156,7 @@ const logger = (newlogs) => {
             throw err;
         } else {
             logPolice();
-            if(getLastFile() !== "nolastfile" && getLastFile().lastDate !== todayDate().replace("log", "")){
+            if(getLastFile() !== "nolastfile" && getLastFile() === todayDate().replace("log", "")){
                 console.log('Created file: '+filename);
                 fs.writeFileSync(filename, Format({}, config));
                 //add logfile to gitignore
