@@ -1,6 +1,7 @@
 let fs = require('fs');
 
-function checkForFile(fileName,callback){
+//checks if the file exists if it doesn't create it
+function checkForFile(fileName, callback){
     fs.exists(fileName, function (exists) {
         if(exists){
             callback();
