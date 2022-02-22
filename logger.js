@@ -80,6 +80,27 @@ const writingLogs = (newlogs) => {
       }
   }
 }
+//create data file to save log files created
+const logPolice = () => {
+    //check if log file exists
+  if(!checkFileExistsSync('logs.dat')){
+    fs.open('logs.dat', 'w', function (err) {
+        if (err){
+            throw err;
+        } else {
+            console.log('Created file: '+filename);
+            fs.writeFileSync(filename, Format({}, config));
+            //add logfile to gitignore
+            fs.appendFile('.gitignore', '\n# Cron logs \nlogs.dat\n', function (err) {
+              if (err) throw err;
+            });
+            writingLogs(newlogs);
+        }
+    });
+  }else{
+    writingLogs(newlogs);
+  }
+}
 const logger = (newlogs) => {
   //check if log file exists
   if(!checkFileExistsSync(filename)){
