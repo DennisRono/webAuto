@@ -93,3 +93,5 @@ const logger = (newlogs) => {
     writingLogs(newlogs);
   }
 }
+
+module.exports = logger
