@@ -48,6 +48,10 @@ const writingLogs = (newlogs) => {
   //check logs state
   let logs;
   if(getLogs().state === "Empty"){
+      //add id to new logs
+      const idlogs = Object.entries(newlogs);
+      idlogs.push(["_id", genId]).push(['Time', getTime]);
+      newlogs = idlogs;
       let tod = todayDate();
       newlogs = '{"'+tod+'"'+' :['+JSON.stringify(newlogs)+']}';
       logs = JSON.parse(newlogs);
