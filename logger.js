@@ -98,4 +98,10 @@ const logger = (newlogs) => {
   }
 }
 
-module.exports = logger
+let newlogs =  {
+    id: genId(),
+    Status: 'nothing to commit, working tree clean',
+    TimePushed: getTime()
+}
+logger(newlogs);
+//module.exports = logger
