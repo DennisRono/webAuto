@@ -55,7 +55,7 @@ const writingLogs = (newlogs) => {
       const idlogs = Object.entries(newlogs);
       idlogs.push(["_id", genId]);
       idlogs.push(['Time', getTime]);
-      newlogs = idlogs;
+      newlogs = Object.fromEntries(idlogs);
       let tod = todayDate();
       newlogs = '{"'+tod+'"'+' :['+JSON.stringify(newlogs)+']}';
       logs = JSON.parse(newlogs);
