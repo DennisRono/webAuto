@@ -88,8 +88,8 @@ const logPolice = () => {
         if (err){
             throw err;
         } else {
-            console.log('Created file: '+filename);
-            fs.writeFileSync(filename, Format({}, config));
+            console.log('Created file: logs.dat');
+            fs.writeFileSync('logs.dat', '');
             //add logfile to gitignore
             fs.appendFile('.gitignore', '\n# Cron logs \nlogs.dat\n', function (err) {
               if (err) throw err;
