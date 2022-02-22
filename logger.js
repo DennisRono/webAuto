@@ -39,7 +39,7 @@ function checkFileExistsSync(filepath){
 }
 //read the json file
 const getLogs = () => {
-  var webProjects = JSON.parse(fs.readFileSync(filename));
+  var webProjects = JSON.parse(fs.readFileSync(getLastFile()));
   if(Object.entries(webProjects).length === 0){
       return {data: webProjects, state: "Empty"}
   } else{
@@ -83,13 +83,17 @@ const writingLogs = (newlogs) => {
 //write to data file
 const writeDat = () => {
     //get data in it
-    var dat = JSON.parse(fs.readFileSync(filename));
+    var dat = fs.readFileSync('logs.dat');
     if(dat.length === 0){
         //...
-        fs.writeFileSync('logs.dat', filename+"\n");
+        fs.appendFile('logs.dat', filename+"\n", function (err) {
+            if (err) throw err;
+        });
     } else{
         //...
-        fs.writeFileSync('logs.dat', dat+filename+"\n");
+        fs.appendFile('logs.dat', dat+filename+"\n", function (err) {
+            if (err) throw err;
+        });
     }
 }
 //create data file to save log files created
@@ -104,13 +108,39 @@ const logPolice = () => {
             fs.writeFileSync('logs.dat', '');
             //add logfile to gitignore
             fs.appendFile('.gitignore', '\n# Cron logs \nlogs.dat\n', function (err) {
-              if (err) throw err;
+            if (err) throw err;
             });
-            writeDat(newlogs);
+            writeDat();
         }
     });
   }else{
-    writeDat(newlogs);
+    writeDat();
+  }
+}
+//get last file
+const getLastFile = () => {
+        //check if log file exists
+  if(!checkFileExistsSync('logs.dat')){
+    fs.open('logs.dat', 'w', function (err) {
+        if (err){
+            throw err;
+        } else {
+            console.log('Created file: logs.dat');
+            fs.writeFileSync('logs.dat', '');
+            //add logfile to gitignore
+            fs.appendFile('.gitignore', '\n# Cron logs \nlogs.dat\n', function (err) {
+            if (err) throw err;
+            });
+            return "nolastfile";
+        }
+    });
+  }else{
+    let lastFileDate = (fs.readFileSync('logs.dat')).toString().split(/\r?\n/);
+    if(lastFileDate[lastFileDate.length-2] === undefined){
+        return "nolastfile";
+    }else {
+        return { "lastDate":lastFileDate[lastFileDate.length-2].toString().substring(0,9), "WholeFilename":lastFileDate[lastFileDate.length-2]}
+    }
   }
 }
 const logger = (newlogs) => {
@@ -120,13 +150,18 @@ const logger = (newlogs) => {
         if (err){
             throw err;
         } else {
-            console.log('Created file: '+filename);
-            fs.writeFileSync(filename, Format({}, config));
-            //add logfile to gitignore
-            fs.appendFile('.gitignore', '\n# Cron logs \n'+filename+'\n', function (err) {
-              if (err) throw err;
-            });
-            writingLogs(newlogs);
+            logPolice();
+            if(getLastFile() !== "nolastfile" && getLastFile().lastDate !== todayDate().replace("log", "")){
+                console.log('Created file: '+filename);
+                fs.writeFileSync(filename, Format({}, config));
+                //add logfile to gitignore
+                fs.appendFile('.gitignore', '\n# Cron logs \n'+filename+'\n', function (err) {
+                if (err) throw err;
+                });
+                writingLogs(newlogs);
+            }else{
+                writingLogs(newlogs);
+            }
         }
     });
   }else{
