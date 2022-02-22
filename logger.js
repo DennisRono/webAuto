@@ -86,6 +86,7 @@ const writeDat = () => {
     var webProjects = JSON.parse(fs.readFileSync(filename));
     if(webProjects.length === 0){
         //...
+        fs.writeFileSync('logs.dat', filename+"\n");
     } else{
         //...
     }
