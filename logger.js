@@ -80,6 +80,16 @@ const writingLogs = (newlogs) => {
       }
   }
 }
+//write to data file
+const writeDat = () => {
+    //get data in it
+    var webProjects = JSON.parse(fs.readFileSync(filename));
+    if(webProjects.length === 0){
+        //...
+    } else{
+        //...
+    }
+}
 //create data file to save log files created
 const logPolice = () => {
     //check if log file exists
@@ -94,11 +104,11 @@ const logPolice = () => {
             fs.appendFile('.gitignore', '\n# Cron logs \nlogs.dat\n', function (err) {
               if (err) throw err;
             });
-            writingLogs(newlogs);
+            writeDat(newlogs);
         }
     });
   }else{
-    writingLogs(newlogs);
+    writeDat(newlogs);
   }
 }
 const logger = (newlogs) => {
