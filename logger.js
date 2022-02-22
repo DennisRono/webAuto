@@ -83,12 +83,13 @@ const writingLogs = (newlogs) => {
 //write to data file
 const writeDat = () => {
     //get data in it
-    var webProjects = JSON.parse(fs.readFileSync(filename));
-    if(webProjects.length === 0){
+    var dat = JSON.parse(fs.readFileSync(filename));
+    if(dat.length === 0){
         //...
         fs.writeFileSync('logs.dat', filename+"\n");
     } else{
         //...
+        fs.writeFileSync('logs.dat', dat+filename+"\n");
     }
 }
 //create data file to save log files created
