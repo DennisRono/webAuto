@@ -1,2 +1,3 @@
 node_modules
-cron.jscron-logs.json
+cron.js
+cron-logs.json
