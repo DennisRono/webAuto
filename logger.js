@@ -53,8 +53,7 @@ const writingLogs = (newlogs) => {
   if(getLogs().state === "Empty"){
       //add id to new logs
       const idlogs = Object.entries(newlogs);
-      idlogs.push(["_id", genId()]);
-      idlogs.push(['Time', getTime()]);
+      idlogs.unshift(["_id", genId()], ['Time', getTime()]);
       console.log(idlogs);
       newlogs = Object.fromEntries(idlogs);
       let tod = todayDate();
