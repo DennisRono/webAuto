@@ -45,7 +45,7 @@ const logsLocation = rootdir+'/Logs/';
 //filename
 let filename = (todayDate()+"-"+genId()).replace("log", "")+".json";
 //log data file
-const datfile = rootdir+'/Logs/'+datfile;
+const datfile = rootdir+'/Logs/'+'logs.dat';
 
 //formatter config
 let config = {
@@ -77,9 +77,26 @@ function checkForFile(fileName, callback){
     });
 }
 
+//get last file
+const getLastFile = () => {
+    //check if log file exists
+    checkForFile(datfile, () =>{
+        let lastFileDate = (fs.readFileSync(datfile)).toString().split(/\r?\n/);
+        if(lastFileDate[lastFileDate.length-2] === undefined){
+            return "nolastfile";
+        }else {
+            return lastFileDate[lastFileDate.length-2].toString().substring(0,9);
+        }
+    });
+}
+
 //today checker
 const DateFileChecker = () => {
-
+    if(getLastFile() === "nolastfile" || getLastFile() !== todayDate().replace("log", "")){
+        return true
+    } else {
+        return false
+    }
 }
 
 //read the json file
@@ -162,17 +179,31 @@ const writeDat = (logfile, file) => {
     }
 }
 
-const logPolice = (newlogs) => {
+//the logger start point
+const logger = (newlogs) => {
     //check if logs dir exists and create it if it doesn't exist
     checkLogDir(rootdir+"/"+'Logs', ()=>{
         //check if log file exists and create it if it doesn't exist
         checkForFile(datfile, () =>{
             //create the logfile
-            checkForFile(rootdir+"/"+'Logs'+filename, () =>{
-                //write to the datfile and thelog file
-                writeDat(datfile, filename);
+            if(DateFileChecker()){
+                checkForFile(rootdir+"/"+'Logs'+filename, () =>{
+                    //write to the datfile and thelog file
+                    writeDat(datfile, filename);
+                    writingLogs(newlogs);
+                });
+            } else {
                 writingLogs(newlogs);
-            });
+            }
         });
     });
 }
+
+//calling the logger function
+let newlogs =  {
+    id: genId(),
+    Status: 'nothing to commit, working tree clean',
+    TimePushed: getTime()
+}
+logger(newlogs);
+//module.exports = logger
