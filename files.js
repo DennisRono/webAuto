@@ -6,11 +6,19 @@ function checkForFile(fileName, callback){
         if(exists){
             callback();
         }else{
-            fs.writeFile(fileName, {flag: 'wx'}, function (err, data) {
+            fs.writeFileSync(fileName,  () => {
                 callback();
-            })
+            });
+            // fs.writeFile(fileName, {flag: 'wx'}, function (err, data) {
+            //     callback();
+            // })
         }
     });
 }
+
+checkForFile('Logs/logs.dat', ()=>{
+    console.log("succ");
+    return "hello";
+})
 
 module.exports = checkForFile

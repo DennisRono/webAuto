@@ -66,11 +66,13 @@ const checkLogDir = (dirName, callback) => {
 
 //checks if the file exists if it doesn't create it
 function checkForFile(fileName, callback){
+    fileName = fileName.toString().replace(rootdir+'/Logs/', "");
+    console.log(fileName);
     fs.exists(fileName, function (exists) {
         if(exists){
             callback();
         }else{
-            fs.writeFile(fileName, {flag: 'wx'}, function (err, data) {
+            fs.writeFile("Logs/logs.dat", {flag: 'wx'}, function (err, data) {
                 callback();
             })
         }
