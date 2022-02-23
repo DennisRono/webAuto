@@ -66,7 +66,6 @@ const checkLogDir = (dirName, callback) => {
 
 //checks if the file exists if it doesn't create it
 function checkForFile(fileName, callback){
-    fileName = fileName.toString().replace(rootdir, "");
     fs.exists(fileName, function (exists) {
         if(exists){
             callback();
@@ -82,6 +81,7 @@ function checkForFile(fileName, callback){
 const getLastFile = () => {
     //check if log file exists
     checkForFile(datfile, () =>{
+        console.log("this ran");
         let lastFileDate = (fs.readFileSync(datfile)).toString().split(/\r?\n/);
         if(lastFileDate[lastFileDate.length-2] === undefined){
             return "nolastfile";
