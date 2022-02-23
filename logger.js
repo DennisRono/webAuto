@@ -171,7 +171,7 @@ const logger = (newlogs) => {
             throw err;
         } else {
             logPolice();
-            console.log(getLastFile() === "nolastfile" || getLastFile() !== todayDate().replace("log", ""));
+            //console.log(getLastFile() === "nolastfile" || getLastFile() !== todayDate().replace("log", ""));
             if(getLastFile() === "nolastfile" || getLastFile() !== todayDate().replace("log", "")){
                 console.log('Created file: '+filename);
                 fs.writeFileSync(filename, Format({}, config));

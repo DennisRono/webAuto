@@ -15,6 +15,7 @@
     "json-format": "^1.0.1",
     "node-cron": "^3.0.0",
     "selenium-webdriver": "^4.1.1",
-    "shelljs": "^0.8.5"
+    "shelljs": "^0.8.5",
+    "simple-node-logger": "^21.8.12"
   }
 }
