@@ -141,22 +141,30 @@ const writingLogs = (newlogs) => {
 }
 
 //write to data file
-const writeDat = () => {
+const writeDat = (logfile, file) => {
     //get data in it
-    var dat = fs.readFileSync('logs.dat');
+    var dat = fs.readFileSync(rootdir+'/Logs/'+logfile);
     if(dat.length === 0){
-        //...
-        fs.appendFile('logs.dat', filename+"\n", function (err) {
+        fs.appendFile('logs.dat', rootdir+'/Logs/'+file+"\n", function (err) {
             if (err) throw err;
         });
     } else{
-        //...
-        fs.appendFile('logs.dat', filename+"\n", function (err) {
+        fs.appendFile('logs.dat', rootdir+'/Logs/'+file+"\n", function (err) {
             if (err) throw err;
         });
     }
 }
 
 const logPolice = () => {
+    //check if logs dir exists and create it if it doesn't exist
+    checkLogDir(rootdir+"/"+'Logs', ()=>{
+        //check if log file exists and create it if it doesn't exist
+        checkForFile(rootdir+'/Logs/'+datfile, () =>{
+            //create the logfile
+            checkForFile(rootdir+'/Logs/'+filename, () =>{
+                //write to the datfile and thelog file
 
+            });
+        });
+    });
 }
