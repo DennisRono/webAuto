@@ -13,6 +13,7 @@
   "dependencies": {
     "dotenv": "^16.0.0",
     "json-format": "^1.0.1",
+    "log-writer": "^0.0.9",
     "node-cron": "^3.0.0",
     "selenium-webdriver": "^4.1.1",
     "shelljs": "^0.8.5",
