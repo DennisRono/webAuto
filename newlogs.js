@@ -67,13 +67,13 @@ const checkLogDir = (dirName, callback) => {
 //checks if the file exists if it doesn't create it
 function checkForFile(fileName, callback){
     fileName = fileName.toString().replace(rootdir, "");
-    //console.log(callback());
     fs.exists(fileName, function (exists) {
         if(exists){
             callback();
         }else{
-            fs.writeFile("Logs/logs.dat", {flag: 'wx'}, '');
-            callback();
+            fs.writeFile(fileName, '', function (err, data) {
+                callback();
+            });
         }
     });
 }
@@ -188,7 +188,7 @@ const logger = (newlogs) => {
         checkForFile(datfile, () =>{
             //create the logfile
             if(DateFileChecker()){
-                checkForFile(rootdir+"/"+'Logs'+filename, () =>{
+                checkForFile(rootdir+'/Logs/'+filename, () =>{
                     //write to the datfile and thelog file
                     writeDat(datfile, filename);
                     writingLogs(newlogs);

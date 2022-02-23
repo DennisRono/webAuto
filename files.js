@@ -6,9 +6,8 @@ function checkForFile(fileName, callback){
         if(exists){
             callback();
         }else{
-            //fs.writeFileSync(fileName,  callback());
-            fs.writeFile(fileName, {flag: 'wx'}, function (err, data) {
-                return callback();
+            fs.writeFile(fileName, '', function (err, data) {
+                callback();
             })
         }
     });
