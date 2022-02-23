@@ -40,10 +40,12 @@ const genId = () => {
     return (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2);
 }
 
+//logs location
+const logsLocation = rootdir+'/Logs/';
 //filename
 let filename = (todayDate()+"-"+genId()).replace("log", "")+".json";
 //log data file
-const datfile = "logs.dat";
+const datfile = rootdir+'/Logs/'+datfile;
 
 //formatter config
 let config = {
@@ -75,13 +77,18 @@ function checkForFile(fileName, callback){
     });
 }
 
+//today checker
+const DateFileChecker = () => {
+
+}
+
 //read the json file
 const getLogs = () => {
-    let lastFileName = (fs.readFileSync('logs.dat')).toString().split(/\r?\n/)
+    let lastFileName = (fs.readFileSync(datfile)).toString().split(/\r?\n/)
     if(lastFileName[lastFileName.length-2] === undefined){
         return {data: "", state: "Empty"}
     }else {
-        var webProjects = JSON.parse(fs.readFileSync(lastFileName[lastFileName.length-2]));
+        var webProjects = JSON.parse(fs.readFileSync(logsLocation+lastFileName[lastFileName.length-2]));
         if(Object.entries(webProjects).length === 0){
             return {data: webProjects, state: "Empty"}
         } else{
@@ -102,11 +109,11 @@ const writingLogs = (newlogs) => {
       let tod = todayDate();
       newlogs = '{"'+tod+'"'+' :['+JSON.stringify(newlogs)+']}';
       logs = JSON.parse(newlogs);
-      let lastFileName = (fs.readFileSync('logs.dat')).toString().split(/\r?\n/)
+      let lastFileName = (fs.readFileSync(datfile)).toString().split(/\r?\n/)
       if(lastFileName[lastFileName.length-2] === undefined){
           return {data: "", state: "Empty"}
       }else {
-          fs.writeFileSync(lastFileName[lastFileName.length-2], Format(logs, config));
+          fs.writeFileSync(logsLocation+lastFileName[lastFileName.length-2], Format(logs, config));
       }
   }else{
       //get last key input from the json data
@@ -120,21 +127,21 @@ const writingLogs = (newlogs) => {
           let cutlogs = JSON.stringify(getLogs().data).slice(0, JSON.stringify(getLogs().data).length-2);
           logs = cutlogs+','+JSON.stringify(newlogs)+']}';
           logs = JSON.parse(logs);
-          let lastFileName = (fs.readFileSync('logs.dat')).toString().split(/\r?\n/)
+          let lastFileName = (fs.readFileSync(datfile)).toString().split(/\r?\n/)
           if(lastFileName[lastFileName.length-2] === undefined){
               return {data: "", state: "Empty"}
           }else {
-              fs.writeFileSync(lastFileName[lastFileName.length-2], Format(logs, config));
+              fs.writeFileSync(logsLocation+lastFileName[lastFileName.length-2], Format(logs, config));
           }
       }else{
           let cutlogs = JSON.stringify(getLogs().data).slice(0, JSON.stringify(getLogs().data).length-1);
           logs = cutlogs+',"'+todayDate()+'" :['+JSON.stringify(newlogs)+']}';
           logs = JSON.parse(logs);
-          let lastFileName = (fs.readFileSync('logs.dat')).toString().split(/\r?\n/)
+          let lastFileName = (fs.readFileSync(datfile)).toString().split(/\r?\n/)
           if(lastFileName[lastFileName.length-2] === undefined){
               return {data: "", state: "Empty"}
           }else {
-              fs.writeFileSync(lastFileName[lastFileName.length-2], Format(logs, config));
+              fs.writeFileSync(logsLocation+lastFileName[lastFileName.length-2], Format(logs, config));
           }
       }
   }
@@ -143,27 +150,28 @@ const writingLogs = (newlogs) => {
 //write to data file
 const writeDat = (logfile, file) => {
     //get data in it
-    var dat = fs.readFileSync(rootdir+'/Logs/'+logfile);
+    var dat = fs.readFileSync(logfile);
     if(dat.length === 0){
-        fs.appendFile('logs.dat', rootdir+'/Logs/'+file+"\n", function (err) {
+        fs.appendFile(datfile, file+"\n", function (err) {
             if (err) throw err;
         });
     } else{
-        fs.appendFile('logs.dat', rootdir+'/Logs/'+file+"\n", function (err) {
+        fs.appendFile(datfile, file+"\n", function (err) {
             if (err) throw err;
         });
     }
 }
 
-const logPolice = () => {
+const logPolice = (newlogs) => {
     //check if logs dir exists and create it if it doesn't exist
     checkLogDir(rootdir+"/"+'Logs', ()=>{
         //check if log file exists and create it if it doesn't exist
-        checkForFile(rootdir+'/Logs/'+datfile, () =>{
+        checkForFile(datfile, () =>{
             //create the logfile
-            checkForFile(rootdir+'/Logs/'+filename, () =>{
+            checkForFile(rootdir+"/"+'Logs'+filename, () =>{
                 //write to the datfile and thelog file
-
+                writeDat(datfile, filename);
+                writingLogs(newlogs);
             });
         });
     });
