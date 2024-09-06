@@ -14,8 +14,8 @@
     "dotenv": "^16.0.1",
     "json-format": "^1.0.1",
     "log-writer": "^0.0.9",
-    "node-cron": "^3.0.0",
-    "selenium-webdriver": "^4.1.1",
+    "node-cron": "^3.0.1",
+    "selenium-webdriver": "^4.23.0",
     "shelljs": "^0.8.5",
     "simple-node-logger": "^21.8.12"
   }
